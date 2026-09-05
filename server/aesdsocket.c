@@ -380,6 +380,7 @@ int main(int argc, char *argv[]){
 	struct aesddaemon_info_S aesddaemon;
     struct aesdsocket_info_S aesdsocket;
 
+    printf("aesdsocket server Started!");
     openlog(NULL, 0, LOG_USER);
     while ((opt = getopt(argc, argv, "d")) != -1) {
         switch (opt) {

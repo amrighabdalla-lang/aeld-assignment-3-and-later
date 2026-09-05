@@ -1,0 +1,38 @@
+#!/bin/sh
+
+DAEMON="/usr/bin/aesdsocket"
+NAME="aesdsocket"
+
+case "$1" in
+    start)
+        echo "Starting $NAME"
+        start-stop-daemon --start \
+            --background \
+            --make-pidfile \
+            --pidfile /var/run/$NAME.pid \
+            --exec "$DAEMON" \
+            -- -d
+        ;;
+
+    stop)
+        echo "Stopping $NAME"
+        start-stop-daemon --stop \
+            --signal TERM \
+            --pidfile /var/run/$NAME.pid \
+            --retry TERM/5/KILL/5
+
+        rm -f /var/run/$NAME.pid
+        ;;
+
+    restart)
+        "$0" stop
+        "$0" start
+        ;;
+
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
+esac
+
+exit 0
